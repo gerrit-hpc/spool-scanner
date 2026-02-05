@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { spoolman } from "@/lib/spoolman";
 import type { Spool } from "@/types/spoolman";
 import { SpoolCard } from "./SpoolCard";
+import { WriteTagModal } from "./WriteTagModal";
 import { Search, Loader2, AlertCircle, Settings } from "lucide-react";
 
 interface DashboardProps {
@@ -13,6 +14,7 @@ export function Dashboard({ onSettingsClick }: DashboardProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSpool, setSelectedSpool] = useState<Spool | null>(null);
 
   useEffect(() => {
     async function loadSpools() {
@@ -110,9 +112,20 @@ export function Dashboard({ onSettingsClick }: DashboardProps) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredSpools.map((spool) => (
-            <SpoolCard key={spool.id} spool={spool} />
+            <SpoolCard 
+                key={spool.id} 
+                spool={spool} 
+                onWriteClick={setSelectedSpool}
+            />
           ))}
         </div>
+      )}
+      
+      {selectedSpool && (
+        <WriteTagModal
+          spool={selectedSpool}
+          onClose={() => setSelectedSpool(null)}
+        />
       )}
     </div>
   );

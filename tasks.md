@@ -31,7 +31,7 @@
   - Create a responsive layout.
   - Display a list of recent spools from Spoolman.
   - Add search/filter capabilities.
-- [ ] **Build "Write to Tag" UI Flow**
+- [x] **Build "Write to Tag" UI Flow**
   - Select a spool from the list.
   - Preview the OpenSpool JSON data.
   - "Ready to Scan" overlay to write data to the NFC tag.
