@@ -7,4 +7,5 @@ export interface OpenSpool {
   min_temp: string;
   max_temp: string;
   spool_id?: number;
+  subtype?: string;
 }

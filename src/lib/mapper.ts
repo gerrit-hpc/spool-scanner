@@ -1,5 +1,5 @@
-import type { Spool } from "../types/spoolman";
 import type { OpenSpool } from "../types/openspool";
+import type { Spool } from "../types/spoolman";
 
 export function mapSpoolToOpenSpool(spool: Spool): OpenSpool {
   const filament = spool.filament;
@@ -13,7 +13,14 @@ export function mapSpoolToOpenSpool(spool: Spool): OpenSpool {
 
   // Handle temps: Spoolman has one temp setting. OpenSpool expects min/max.
   // We'll use the single temp for both, or a default of 200 if missing.
-  const temp = filament.settings_extruder_temp ? Math.round(filament.settings_extruder_temp).toString() : "200";
+  const temp = filament.settings_extruder_temp
+    ? Math.round(filament.settings_extruder_temp).toString()
+    : "200";
+
+  let subtype = filament.extra?.subtype;
+  if (subtype) {
+    subtype = subtype.replaceAll('"', ""); // Sanitize subtype to be safe for tags
+  }
 
   return {
     protocol: "openspool",
@@ -24,5 +31,6 @@ export function mapSpoolToOpenSpool(spool: Spool): OpenSpool {
     min_temp: temp,
     max_temp: temp,
     spool_id: spool.id,
+    subtype: subtype,
   };
 }
