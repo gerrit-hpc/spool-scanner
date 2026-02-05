@@ -1,0 +1,11 @@
+services:
+  vibe:
+    build: .
+    restart: unless-stopped
+    container_name: vibe
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vibe.rule=Host(`spoolman.alveshome.com`) && PathPrefix(`/nfc`)"
+      - "traefik.http.routers.vibe.entrypoints=websecure"
+      - "traefik.http.routers.vibe.tls=true"
+      - "traefik.http.services.vibe.loadbalancer.server.port=80"
