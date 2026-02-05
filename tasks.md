@@ -14,7 +14,7 @@
   - Implement validation logic (e.g., using `zod`) to ensure data integrity before writing to tags.
 
 ## Phase 2: Core Logic
-- [ ] **Create NFC Abstraction Layer (Web NFC)**
+- [x] **Create NFC Abstraction Layer (Web NFC)**
   - Implement the service to interact with the `NDEFReader` API.
   - Handle permission requests and reading/writing NDEF records.
   - **Constraint:** Targeted for Chrome on Android.
