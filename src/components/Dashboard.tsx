@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { spoolman } from "@/lib/spoolman";
 import type { Spool } from "@/types/spoolman";
 import { SpoolCard } from "./SpoolCard";
-import { Search, Loader2, AlertCircle } from "lucide-react";
+import { Search, Loader2, AlertCircle, Settings } from "lucide-react";
 
-export function Dashboard() {
+interface DashboardProps {
+  onSettingsClick: () => void;
+}
+
+export function Dashboard({ onSettingsClick }: DashboardProps) {
   const [spools, setSpools] = useState<Spool[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -55,8 +59,19 @@ export function Dashboard() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="mb-8 space-y-4">
-        <h1 className="text-3xl font-bold text-gray-900">Spool Dashboard</h1>
-        <p className="text-gray-600">Manage and track your 3D printing filaments.</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Spool Dashboard</h1>
+            <p className="text-gray-600">Manage and track your 3D printing filaments.</p>
+          </div>
+          <button
+            onClick={onSettingsClick}
+            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+            title="Settings"
+          >
+            <Settings className="h-6 w-6" />
+          </button>
+        </div>
         
         <div className="relative max-w-md">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

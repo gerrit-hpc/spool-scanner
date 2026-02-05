@@ -10,8 +10,8 @@ declare global {
   interface NDEFReader extends EventTarget {
     scan(options?: NDEFScanOptions): Promise<void>;
     write(message: NDEFMessageSource, options?: NDEFWriteOptions): Promise<void>;
-    onreading: ((this: NDEFReader, event: NDEFReadingEvent) => any) | null;
-    onreadingerror: ((this: NDEFReader, event: Event) => any) | null;
+    onreading: ((this: NDEFReader, event: NDEFReadingEvent) => void) | null;
+    onreadingerror: ((this: NDEFReader, event: Event) => void) | null;
   }
 
   interface NDEFScanOptions {
