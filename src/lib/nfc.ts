@@ -66,7 +66,7 @@ export class NFCService {
       };
     }
 
-    await ndef.write(message, options);
+    await ndef.write(message, options || { overwrite: true });
   }
 }
 
