@@ -1,9 +1,8 @@
-
 export class NFCService {
   private ndef: NDEFReader | null = null;
 
   public static isSupported(): boolean {
-    return typeof window !== 'undefined' && 'NDEFReader' in window;
+    return typeof window !== "undefined" && "NDEFReader" in window;
   }
 
   /**
@@ -15,10 +14,10 @@ export class NFCService {
   public async scan(
     onReading: (message: NDEFMessage, serialNumber: string) => void,
     onError?: (error: Event) => void,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<void> {
     if (!NFCService.isSupported()) {
-      throw new Error('Web NFC is not supported in this browser.');
+      throw new Error("Web NFC is not supported in this browser.");
     }
 
     this.ndef = new window.NDEFReader();
@@ -43,26 +42,28 @@ export class NFCService {
    */
   public async write(
     data: string | Record<string, unknown>,
-    options?: NDEFWriteOptions
+    options?: NDEFWriteOptions,
   ): Promise<void> {
     if (!NFCService.isSupported()) {
-      throw new Error('Web NFC is not supported in this browser.');
+      throw new Error("Web NFC is not supported in this browser.");
     }
 
     const ndef = new window.NDEFReader();
     let message: NDEFMessageSource;
 
-    if (typeof data === 'string') {
+    if (typeof data === "string") {
       message = data;
     } else {
       const encoder = new TextEncoder();
-      message = [
-        {
-          recordType: 'mime',
-          mediaType: 'application/json',
-          data: encoder.encode(JSON.stringify(data)),
-        },
-      ];
+      message = {
+        records: [
+          {
+            recordType: "mime",
+            mediaType: "application/json",
+            data: encoder.encode(JSON.stringify(data)),
+          },
+        ],
+      };
     }
 
     await ndef.write(message, options);
@@ -70,7 +71,7 @@ export class NFCService {
 }
 
 export function decodeTextRecord(record: NDEFRecord): string {
-  const decoder = new TextDecoder(record.encoding || 'utf-8');
+  const decoder = new TextDecoder(record.encoding || "utf-8");
   return decoder.decode(record.data);
 }
 
@@ -79,7 +80,7 @@ export function decodeJSONRecord<T = unknown>(record: NDEFRecord): T | null {
   try {
     return JSON.parse(decoder.decode(record.data)) as T;
   } catch (error) {
-    console.error('Error parsing JSON record:', error);
+    console.error("Error parsing JSON record:", error);
     return null;
   }
 }

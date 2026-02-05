@@ -9,7 +9,10 @@ declare global {
 
   interface NDEFReader extends EventTarget {
     scan(options?: NDEFScanOptions): Promise<void>;
-    write(message: NDEFMessageSource, options?: NDEFWriteOptions): Promise<void>;
+    write(
+      message: NDEFMessageSource,
+      options?: NDEFWriteOptions,
+    ): Promise<void>;
     onreading: ((this: NDEFReader, event: NDEFReadingEvent) => void) | null;
     onreadingerror: ((this: NDEFReader, event: Event) => void) | null;
   }
@@ -24,7 +27,15 @@ declare global {
     signal?: AbortSignal;
   }
 
-  type NDEFMessageSource = string | ArrayBuffer | ArrayBufferView | NDEFRecordInit[];
+  type NDEFMessageSource =
+    | string
+    | ArrayBuffer
+    | ArrayBufferView
+    | NDEFMessageInit;
+
+  interface NDEFMessageInit {
+    records: NDEFRecordInit[];
+  }
 
   interface NDEFRecordInit {
     recordType: string;
@@ -35,7 +46,11 @@ declare global {
     data?: NDEFRecordData;
   }
 
-  type NDEFRecordData = string | ArrayBuffer | ArrayBufferView | NDEFRecordInit[];
+  type NDEFRecordData =
+    | string
+    | ArrayBuffer
+    | ArrayBufferView
+    | NDEFRecordInit[];
 
   interface NDEFReadingEvent extends Event {
     serialNumber: string;
