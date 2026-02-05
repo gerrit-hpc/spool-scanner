@@ -9,12 +9,12 @@
   - Create a typed API client to interact with the Spoolman backend.
   - Implement endpoints for fetching spools, filaments, and vendors.
   - specific focus on `GET /api/v1/spool` and `GET /api/v1/spool/{id}`.
-- [ ] **Implement OpenSpool Data Structures & Validation**
+- [x] **Implement OpenSpool Data Structures & Validation**
   - Define TypeScript interfaces matching the OpenSpool JSON specification.
   - Implement validation logic (e.g., using `zod`) to ensure data integrity before writing to tags.
 
 ## Phase 2: Core Logic
-- [ ] **Create NFC Abstraction Layer (Web NFC)**
+- [x] **Create NFC Abstraction Layer (Web NFC)**
   - Implement the service to interact with the `NDEFReader` API.
   - Handle permission requests and reading/writing NDEF records.
   - **Constraint:** Targeted for Chrome on Android.
