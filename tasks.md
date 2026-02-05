@@ -35,7 +35,7 @@
   - Select a spool from the list.
   - Preview the OpenSpool JSON data.
   - "Ready to Scan" overlay to write data to the NFC tag.
-- [ ] **Build "Read from Tag" UI Flow**
+- [x] **Build "Read from Tag" UI Flow**
   - "Scan Tag" button/mode.
   - Display parsed OpenSpool data from the tag.
   - Option to find the corresponding spool in the local Spoolman instance (if it exists).

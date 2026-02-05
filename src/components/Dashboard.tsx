@@ -3,7 +3,8 @@ import { spoolman } from "@/lib/spoolman";
 import type { Spool } from "@/types/spoolman";
 import { SpoolCard } from "./SpoolCard";
 import { WriteTagModal } from "./WriteTagModal";
-import { Search, Loader2, AlertCircle, Settings } from "lucide-react";
+import { Search, Loader2, AlertCircle, Settings, Scan } from "lucide-react";
+import { ReadTagModal } from "./ReadTagModal";
 
 interface DashboardProps {
   onSettingsClick: () => void;
@@ -15,6 +16,7 @@ export function Dashboard({ onSettingsClick }: DashboardProps) {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpool, setSelectedSpool] = useState<Spool | null>(null);
+  const [showReadTagModal, setShowReadTagModal] = useState(false);
 
   useEffect(() => {
     async function loadSpools() {
@@ -66,13 +68,22 @@ export function Dashboard({ onSettingsClick }: DashboardProps) {
             <h1 className="text-3xl font-bold text-gray-900">Spool Dashboard</h1>
             <p className="text-gray-600">Manage and track your 3D printing filaments.</p>
           </div>
-          <button
-            onClick={onSettingsClick}
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
-            title="Settings"
-          >
-            <Settings className="h-6 w-6" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowReadTagModal(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm font-medium"
+            >
+              <Scan className="w-4 h-4" />
+              Scan Tag
+            </button>
+            <button
+              onClick={onSettingsClick}
+              className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+              title="Settings"
+            >
+              <Settings className="h-6 w-6" />
+            </button>
+          </div>
         </div>
         
         <div className="relative max-w-md">
@@ -125,6 +136,12 @@ export function Dashboard({ onSettingsClick }: DashboardProps) {
         <WriteTagModal
           spool={selectedSpool}
           onClose={() => setSelectedSpool(null)}
+        />
+      )}
+
+      {showReadTagModal && (
+        <ReadTagModal
+          onClose={() => setShowReadTagModal(false)}
         />
       )}
     </div>
