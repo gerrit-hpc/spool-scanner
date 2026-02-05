@@ -9,7 +9,7 @@
   - Create a typed API client to interact with the Spoolman backend.
   - Implement endpoints for fetching spools, filaments, and vendors.
   - specific focus on `GET /api/v1/spool` and `GET /api/v1/spool/{id}`.
-- [ ] **Implement OpenSpool Data Structures & Validation**
+- [x] **Implement OpenSpool Data Structures & Validation**
   - Define TypeScript interfaces matching the OpenSpool JSON specification.
   - Implement validation logic (e.g., using `zod`) to ensure data integrity before writing to tags.
 
