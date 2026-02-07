@@ -27,6 +27,9 @@ Spoolman Scanner is an open-source, static web application designed to help you 
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
 
+> [!NOTE]
+> This project was developed by an experienced software developer with the assistance of AI tools to accelerate the building process while maintaining high architectural standards.
+
 ## 📦 Getting Started
 
 ### Prerequisites
