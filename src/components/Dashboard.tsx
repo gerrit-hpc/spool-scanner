@@ -1,51 +1,24 @@
-import { useState, useEffect } from "react";
-import { spoolman } from "@/lib/spoolman";
+import { useSpoolStore } from "@/store/useSpoolStore";
 import type { Spool } from "@/types/spoolman";
+import { AlertCircle, Loader2, Scan, Search, Settings } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ReadTagModal } from "./ReadTagModal";
 import { SpoolCard } from "./SpoolCard";
 import { WriteTagModal } from "./WriteTagModal";
-import { Search, Loader2, AlertCircle, Settings, Scan } from "lucide-react";
-import { ReadTagModal } from "./ReadTagModal";
 
 interface DashboardProps {
   onSettingsClick: () => void;
 }
 
 export function Dashboard({ onSettingsClick }: DashboardProps) {
-  const [spools, setSpools] = useState<Spool[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { spools, isLoading: loading, error, fetchSpools } = useSpoolStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpool, setSelectedSpool] = useState<Spool | null>(null);
   const [showReadTagModal, setShowReadTagModal] = useState(false);
 
   useEffect(() => {
-    async function loadSpools() {
-      try {
-        setLoading(true);
-        const data = await spoolman.getSpools();
-        // Filter out archived spools by default if needed, or just show everything.
-        // Usually dashboards show active spools. Let's filter out archived ones if the API doesn't.
-        // Checking the type definition, there is an 'archived' boolean.
-        const activeSpools = data.filter(s => !s.archived);
-        
-        // Sort by last_used (desc), then registered (desc)
-        activeSpools.sort((a, b) => {
-            const dateA = a.last_used ? new Date(a.last_used).getTime() : (a.registered ? new Date(a.registered).getTime() : 0);
-            const dateB = b.last_used ? new Date(b.last_used).getTime() : (b.registered ? new Date(b.registered).getTime() : 0);
-            return dateB - dateA;
-        });
-
-        setSpools(activeSpools);
-      } catch (err) {
-        console.error("Failed to fetch spools:", err);
-        setError("Failed to load spools. Please check your connection to Spoolman.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadSpools();
-  }, []);
+    fetchSpools();
+  }, [fetchSpools]);
 
   const filteredSpools = spools.filter((spool) => {
     const query = searchQuery.toLowerCase();

@@ -1,20 +1,10 @@
-import type { Spool, Filament, Vendor } from "@/types/spoolman";
+import type { Filament, Spool, Vendor } from "@/types/spoolman";
 
 const DEFAULT_BASE_URL = "/spoolman/api/v1";
 
-function getBaseUrl() {
-  const storedUrl = localStorage.getItem("spoolman_url");
-  if (storedUrl) {
-    // Ensure we don't double-slash if the user added one, though Settings.tsx strips it.
-    // Also assuming the user inputs the root URL, so we append /api/v1
-    return `${storedUrl}/api/v1`;
-  }
-  return DEFAULT_BASE_URL;
-}
-
-async function fetchSpoolman<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}${endpoint}`, options);
+async function fetchSpoolman<T>(endpoint: string, baseUrl?: string, options?: RequestInit): Promise<T> {
+  const finalBaseUrl = baseUrl ? `${baseUrl}/api/v1` : DEFAULT_BASE_URL;
+  const response = await fetch(`${finalBaseUrl}${endpoint}`, options);
 
   if (!response.ok) {
     throw new Error(`Spoolman API error: ${response.status} ${response.statusText}`);
@@ -24,8 +14,8 @@ async function fetchSpoolman<T>(endpoint: string, options?: RequestInit): Promis
 }
 
 export const spoolman = {
-  getSpools: () => fetchSpoolman<Spool[]>("/spool"),
-  getSpool: (id: number) => fetchSpoolman<Spool>(`/spool/${id}`),
-  getFilaments: () => fetchSpoolman<Filament[]>("/filament"),
-  getVendors: () => fetchSpoolman<Vendor[]>("/vendor"),
+  getSpools: (baseUrl?: string) => fetchSpoolman<Spool[]>("/spool", baseUrl),
+  getSpool: (id: number, baseUrl?: string) => fetchSpoolman<Spool>(`/spool/${id}`, baseUrl),
+  getFilaments: (baseUrl?: string) => fetchSpoolman<Filament[]>("/filament", baseUrl),
+  getVendors: (baseUrl?: string) => fetchSpoolman<Vendor[]>("/vendor", baseUrl),
 };

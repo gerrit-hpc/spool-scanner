@@ -1,20 +1,18 @@
+import { useSpoolStore } from "@/store/useSpoolStore";
+import { ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
-import { Save, ArrowLeft } from "lucide-react";
 
 interface SettingsProps {
   onBack: () => void;
 }
 
 export function Settings({ onBack }: SettingsProps) {
-  const [url, setUrl] = useState(() => {
-     return localStorage.getItem("spoolman_url") || "";
-  });
+  const { spoolmanUrl, setSpoolmanUrl } = useSpoolStore();
+  const [url, setUrl] = useState(spoolmanUrl);
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
-    // Remove trailing slash if present
-    const cleanUrl = url.replace(/\/$/, "");
-    localStorage.setItem("spoolman_url", cleanUrl);
+    setSpoolmanUrl(url);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
