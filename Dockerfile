@@ -20,7 +20,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy built assets from builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html/nfc
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
